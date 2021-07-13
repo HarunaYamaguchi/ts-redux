@@ -9,8 +9,8 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   Link,
   Paper,
   Box,
@@ -108,7 +108,7 @@ const Auth: React.FC = () => {
     .then(() => {
       setOpenModal(false)
       setResetEmail("")
-    }) .catch((error) => {
+    }).catch((error) => {
       alert(error.message);
       setResetEmail("");
   })};
@@ -138,8 +138,8 @@ const Auth: React.FC = () => {
 
       const fileName = randomChar + "_" + avatarImage.name
 
-      await storage.ref(`avater/${fileName}`).put(avatarImage);
-      url = await storage.ref("avater").child(fileName).getDownloadURL(); //アップロードした画像のURLを取得
+      await storage.ref(`avatar/${fileName}`).put(avatarImage);
+      url = await storage.ref("avatar").child(fileName).getDownloadURL(); //アップロードした画像のURLを取得
     }
     await authUser.user?.updateProfile({
       displayName: username,
