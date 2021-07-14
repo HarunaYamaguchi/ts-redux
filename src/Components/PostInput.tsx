@@ -6,9 +6,8 @@ import { auth, db, storage } from '../firebase';
 import { Avatar, Button, IconButton} from '@material-ui/core';
 import firebase from 'firebase/app';
 import { AddAPhoto } from '@material-ui/icons';
-import { style } from '@material-ui/system';
 
-const PostInput = () => {
+const PostInput: React.FC = () => {
   const user = useSelector(selectUser);
   const [postImage, setPostImage] = useState<File | null>(null);
   const [postMsg, setPostMsg] = useState("");
@@ -32,7 +31,7 @@ const PostInput = () => {
 
       const fileName = randomChar + "_" + postImage.name;
       const uploadPostImg = storage.ref(`images/${fileName}`).put(postImage);
-      uploadPostImg.on(　//データの読み取り、変更をリッスン
+      uploadPostImg.on( //データの読み取り、変更をリッスン
         firebase.storage.TaskEvent.STATE_CHANGED, //stateの状態が変わった時
 
          () => {}, //progress
@@ -58,7 +57,7 @@ const PostInput = () => {
         image: "",
         text: postMsg,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        username: user.displayName
+        username: user.displayName,
       })
     }
     setPostImage(null);
