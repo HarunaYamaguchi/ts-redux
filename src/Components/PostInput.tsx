@@ -34,7 +34,7 @@ const PostInput: React.FC = () => {
       uploadPostImg.on( //データの読み取り、変更をリッスン
         firebase.storage.TaskEvent.STATE_CHANGED, //stateの状態が変わった時
 
-         () => {}, //progress
+         () => { /* nothing */ }, //progress
          (err) => { //errorハンドリング
            alert(err.message)
          }, async() => {  //正常終了した場合
