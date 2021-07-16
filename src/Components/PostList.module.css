@@ -51,13 +51,21 @@
   margin: 10px;
 }
 
+.post_list_commentUser {
+  font-weight: 400;
+  font-size: 15px;
+  color: white;
+  margin-right: 10px;
+}
+
 .post_comment_Icon {
+  margin-top: 10px;
   color: whitesmoke;
   cursor: pointer;
 }
 
 .post_commentText {
-  font-size: 15px;
+  font-size: 14px;
   color: whitesmoke;
   margin-right: 10px;
 }
@@ -71,11 +79,27 @@
 
 .post_button {
   border: none;
-  color: whitesmoke;
   background-color: transparent;
+  color: whitesmoke;
   cursor: pointer;
 }
 
 .post_button_disabled {
   display: none;
+}
+
+.post_delete {
+  margin-left: 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.post_likeButton {
+  margin-left: 10px;
+  color:#d80505;
+  cursor: pointer;
+}
+
+.post_likeCount {
+  color:#d80505;
 }

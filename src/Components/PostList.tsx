@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { Message, Send } from "@material-ui/icons";
+import { Message, Delete, Favorite } from "@material-ui/icons";
+import SendIcon from "@material-ui/icons/Send";
 
 interface PROPS {
   postId: string;
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const PostList: React.FC<PROPS> = (props) => {
   const classes = useStyles();
   const user = useSelector(selectUser);
+  const [likeCount, setLikeCount] = useState(0);
   const [openComments, setOpenComments] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<COMMENT[]>([
@@ -47,6 +49,14 @@ const PostList: React.FC<PROPS> = (props) => {
       username: "",
     },
   ]);
+
+  const deletePost = () => {
+    db.collection("posts").doc(props.postId).delete();
+  };
+
+  const handleClick = () => {
+    setLikeCount(likeCount + 1);
+  };
 
   useEffect(() => {
     const unSub = db
@@ -84,7 +94,7 @@ const PostList: React.FC<PROPS> = (props) => {
   return (
     <div className={styles.post_list}>
       <div className={styles.post_list_avatar}>
-        <Avatar src={props.avatar} className={classes.small} />
+        <Avatar src={props.avatar} />
       </div>
       <div className={styles.post_list_body}>
         <div>
@@ -96,6 +106,7 @@ const PostList: React.FC<PROPS> = (props) => {
               <span className={styles.post_list_headerTime}>
                 {new Date(props.timestamp?.toDate()).toLocaleString()}
               </span>
+              <Delete onClick={deletePost} className={styles.post_delete} />
             </h3>
           </div>
           <div className={styles.post_list_input}>
@@ -107,13 +118,18 @@ const PostList: React.FC<PROPS> = (props) => {
             <img src={props.image} alt="posts" />
           </div>
         )}
-        <Message onClick={() => setOpenComments(!openComments)} />
+        <Message
+          className={styles.post_comment_Icon}
+          onClick={() => setOpenComments(!openComments)}
+        />
+        <Favorite className={styles.post_likeButton} onClick={handleClick} />
+          <span className={styles.post_likeCount}>{likeCount}</span>
         {openComments && (
           <>
             {comments.map((com) => (
               <div key={com.id} className={styles.post_comment}>
-                <Avatar src={com.avatar} />
-                <span className={styles.post_list_headerUser}>
+                <Avatar src={com.avatar} className={classes.small} />
+                <span className={styles.post_list_commentUser}>
                   @{props.username}
                 </span>
                 <span className={styles.post_commentText}>{com.text}</span>
@@ -134,12 +150,13 @@ const PostList: React.FC<PROPS> = (props) => {
                   }}
                 />
                 <button
+                  disabled={!comment}
                   className={
                     comment ? styles.post_button : styles.post_button_disable
                   }
                   type="submit"
                 >
-                  <Send />
+                  <SendIcon />
                 </button>
               </div>
             </form>
